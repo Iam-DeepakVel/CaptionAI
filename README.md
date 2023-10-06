@@ -69,6 +69,8 @@ With both the client and server set up and running, you can now use the Image Ca
 
 Feel free to modify the environment variables and configurations as needed for your project.
 
-Happy coding!
+Make sure to replace the placeholder values in the environment variables with your actual API keys and URLs. This README file provides clear instructions for setting up and running your image caption generator project. 
 
-Make sure to replace the placeholder values in the environment variables with your actual API keys and URLs. This README file provides clear instructions for setting up and running your image caption generator project. Code by @Iam-DeepakVel
+Code by @Iam-DeepakVel. 
+
+If you'd like to work together, just go to https://iamdeepak.tech and get in touch with me. I'd love to hear from you!
