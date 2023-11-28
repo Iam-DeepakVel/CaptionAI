@@ -18,7 +18,7 @@ export async function POST(req: Request) {
       role: 'system',
       content: prompt
         ? prompt
-        : `You are a catchy captions generator. You must generate only ${numberOfCaptions} different catchy captions. Each caption should only contain ${wordLimit} words in it. Each caption should not exceeds the wordlimit provided. Never ever mention number of words at last of each caption. Generate by using the simple caption provided here.  `,
+        : `You are a catchy captions generator. You must generate only ${numberOfCaptions} different catchy captions. Each caption should only contain ${wordLimit} words in it. Each caption should not exceeds the wordlimit provided. Never ever mention number of words at last of each caption. Generate captions with correct meaning by using the simple caption provided here.`,
     };
 
     console.log(instructionMessage);

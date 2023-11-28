@@ -1,45 +1,44 @@
-'use client';
-import { Empty } from '@/components/empty';
-import Heading from '@/components/heading';
-import { Loader } from '@/components/loader';
-import { Button } from '@/components/ui/button';
-import axios from 'axios';
-import { ImageIcon } from 'lucide-react';
-import { useState } from 'react';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+"use client";
+import { Empty } from "@/components/empty";
+import Heading from "@/components/heading";
+import { Loader } from "@/components/loader";
+import { Button } from "@/components/ui/button";
+import axios from "axios";
+import { ImageIcon } from "lucide-react";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { numberOfCaptionsOptions, wordLimitOptions } from './constants';
-import { BsStars } from 'react-icons/bs';
-import { Patrick_Hand } from 'next/font/google';
-import CaptionCard from '@/components/captionCard';
-import { RxCrossCircled } from 'react-icons/rx';
-import { removeSerialNumbersAndQuotes } from '@/lib/utils';
+} from "@/components/ui/select";
+import { numberOfCaptionsOptions, wordLimitOptions } from "./constants";
+import { BsStars } from "react-icons/bs";
+import { Patrick_Hand } from "next/font/google";
+import CaptionCard from "@/components/captionCard";
+import { RxCrossCircled } from "react-icons/rx";
+import { removeSerialNumbersAndQuotes } from "@/lib/utils";
 
-
-const patrick_Hand = Patrick_Hand({ weight: '400', subsets: ['latin'] });
+const patrick_Hand = Patrick_Hand({ weight: "400", subsets: ["latin"] });
 
 const CaptionGenerationPage = () => {
   const [image, setImage] = useState(null);
   const [captions, setCaptions] = useState<any>();
   const [isLoading, setIsLoading] = useState(false);
 
-  const [previewImage, setPreviewImage] = useState('');
+  const [previewImage, setPreviewImage] = useState("");
 
-  const [prompt, setPrompt] = useState('');
-  const [numberOfCaptions, setNumberOfCaptions] = useState('3');
-  const [wordLimit, setWordLimit] = useState('5');
+  const [prompt, setPrompt] = useState("");
+  const [numberOfCaptions, setNumberOfCaptions] = useState("3");
+  const [wordLimit, setWordLimit] = useState("5");
 
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleImageUpload = (event: any) => {
-    setError('');
+    setError("");
     const file = event.target.files[0];
 
     if (file) {
@@ -56,19 +55,19 @@ const CaptionGenerationPage = () => {
       setIsLoading(true);
 
       if (!image) {
-        setError('Please choose an image first!');
+        setError("Please choose an image first!");
         return;
       }
 
       const formData: any = new FormData();
-      formData.append('file', image);
+      formData.append("file", image);
 
       const response = await axios.post(
-        'http://localhost:8000/predict',
+        "http://localhost:8000/predict",
         formData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
           },
         }
       );
@@ -77,11 +76,11 @@ const CaptionGenerationPage = () => {
         console.log(response.data.caption[0]);
 
         const userMessage = {
-          role: 'user',
+          role: "user",
           content: response.data.caption[0],
         };
 
-        const res: any = await axios.post('/api/conversation', {
+        const res: any = await axios.post("/api/conversation", {
           messages: [userMessage],
           prompt,
           numberOfCaptions,
@@ -92,20 +91,18 @@ const CaptionGenerationPage = () => {
 
         const cleanedCaptions = removeSerialNumbersAndQuotes(captionsString);
 
-        setCaptions(cleanedCaptions.split('\n'));
+        setCaptions(cleanedCaptions.split("\n"));
       } else {
         setCaptions(null);
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
       setCaptions(null);
-      setError('Sorry! Something went wrong. Please try again later.');
+      setError("Sorry! Something went wrong. Please try again later.");
     } finally {
       setIsLoading(false);
     }
   };
-
-  console.log(captions);
 
   return (
     <div>
@@ -127,7 +124,7 @@ const CaptionGenerationPage = () => {
 
             <RxCrossCircled
               onClick={() => {
-                setPreviewImage('');
+                setPreviewImage("");
                 setImage(null);
               }}
               size={24}
@@ -152,7 +149,7 @@ const CaptionGenerationPage = () => {
 
       {/* User Custom Input Section */}
       <section className="px-4 lg:px-8">
-        <div className="rounded-lg border w-full p-4  focus-within:shadow-md focus-within:shadow-purple-500/10 grid grid-cols-12 gap-2">
+        <div className="rounded-lg border border-gray-800 w-full p-4  focus-within:shadow-md focus-within:shadow-purple-500/10 grid grid-cols-12 gap-2">
           <Input
             className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent col-span-12 lg:col-span-6"
             disabled={isLoading}
@@ -161,7 +158,7 @@ const CaptionGenerationPage = () => {
           />
           <div className="col-span-12 lg:col-span-3">
             <Select
-              disabled={isLoading}
+              disabled={isLoading || !!prompt}
               onValueChange={(value) => setNumberOfCaptions(value)}
               value={numberOfCaptions}
               defaultValue={numberOfCaptions}
@@ -181,7 +178,7 @@ const CaptionGenerationPage = () => {
           </div>
           <div className="col-span-12 lg:col-span-3">
             <Select
-              disabled={isLoading}
+              disabled={isLoading || !!prompt}
               onValueChange={(value) => setWordLimit(value)}
               value={wordLimit}
               defaultValue={wordLimit}

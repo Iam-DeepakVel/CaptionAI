@@ -40,7 +40,7 @@ function CaptionCard({ caption, index, patrick_Hand }: any) {
       className="flex max-w-2xl rounded-lg drop-shadow-md  bg-gradient-to-r from-pink-100 via-red-100 to-red-200 px-4 py-2"
     >
       <h3
-        className={`capitalize drop-shadow-xl shadow-black  text-xl font-semibold leading-10 ${patrick_Hand}`}
+        className={`drop-shadow-xl shadow-black  text-xl font-semibold leading-10 ${patrick_Hand}`}
       >
         {index + 1}. “ {caption} ”
       </h3>
