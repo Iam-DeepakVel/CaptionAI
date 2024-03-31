@@ -46,6 +46,7 @@ Navigate to the `server` directory using the terminal and activate the virtual e
 
 ```bash
 cd server
+python -m venv .venv (Do this if you dont have .venv directory in your root)
 cd .venv
 cd scripts
 ./activate
